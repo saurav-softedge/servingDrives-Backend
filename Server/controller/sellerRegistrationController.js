@@ -1,16 +1,25 @@
-const { json } = require("body-parser");
 const { uploadFile } = require("../awsConfig/s3");
 const sellerRegistrationModel = require("../Model/sellerRegistrationmodel");
 
 exports.sellerRegistration = async (req, res) => {
+  const idGenerator = () => {
+    let id = (Date.now() % 10000).toString();
+    while (id.length < 4) {
+      id = id + Math.floor(Math.random() * 10);
+    }
+    return id;
+  };
+  const id = idGenerator();
   try {
     const obj = JSON.parse(req.body.companyrepresentative);
     const obj1 = JSON.parse(req.body.operationhours);
     const sellerRegistrationData = new sellerRegistrationModel({
+      outlet_id: id,
       outletinformation: {
         outletName: req.body.outletName,
         outletCompleteAddress: req.body.outletCompleteAddress,
         outletPincode: req.body.outletPincode,
+        outletcity: req.body.outletcity,
         outletCountry: req.body.outletCountry,
         pinOutletAddress: req.body.pinOutletAddress,
         contactNumberOfOutlet: req.body.contactNumberOfOutlet,
@@ -47,11 +56,16 @@ exports.sellerRegistration = async (req, res) => {
         IFSCcode: req.body.IFSCcode,
         MMID: req.body.MMID,
       },
+      products: req.body.products,
+      globaldishdiscount: req.body.globaldishdiscount,
+      globaldishdiscountpercentage: req.body.globaldishdiscountpercentage,
+      admin_status: req.body.admin_status,
+      active: req.body.active,
     });
     await sellerRegistrationData.save();
     if (req.files) {
       console.log(req.files);
-      uploadFile(req.files, req.body.outletName);
+      uploadFile(req.files, id);
       res.status(200).send("uploaded");
     }
   } catch (error) {

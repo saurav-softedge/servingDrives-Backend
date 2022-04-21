@@ -40,6 +40,7 @@ const validateIFSCCode = (val) => {
 // const daysSchema = new Schema({ day: String });
 
 const outletSchema = new Schema({
+  outlet_id: String,
   outletinformation: {
     outletName: {
       required: true,
@@ -53,6 +54,10 @@ const outletSchema = new Schema({
       type: Number,
       validate: [validatePinNumber, "Invalid Pin Code"],
       match: [/^[1-9][0-9]{5}$/, "Invalid Pin Code"],
+    },
+    outletcity: {
+      type: String,
+      default: "jaipur",
     },
     outletCountry: {
       type: String,
@@ -218,6 +223,41 @@ const outletSchema = new Schema({
       type: String,
       required: [true, "MMID is required"],
     },
+  },
+  products: {
+    type: [String],
+    default: null,
+  },
+  globaldishdiscount: {
+    type: String,
+    // enum: {
+    //   values: ["Yes", "No"],
+    //   message: "Only two values Yes and No are allowed",
+    // },
+  },
+  globaldishdiscountpercentage: String,
+  opening_status: {
+    type: String,
+    // enum: {
+    //   values: ["Active", "Inactive"],
+    //   message: "Only Active and Inactive status are allowed for opening status",
+    // },
+  },
+  admin_status: {
+    type: String,
+    // enum: {
+    //   values: ["Approved", "Not Approved"],
+    //   message:
+    //     "Only values Approved and Not Approved are allowed in admin status",
+    // },
+  },
+  active: {
+    type: String,
+    // enum: {
+    //   values: ["Yes", "No"],
+    //   message: "Active Status can only take values Yes or No",
+    // },
+    default: null,
   },
 });
 
