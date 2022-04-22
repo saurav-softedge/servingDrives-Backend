@@ -1,14 +1,15 @@
 const express = require("express");
-const route = express.Router();
+const passport = require("passport");
 const signUpController = require("../controller/signupController");
 const loginController = require("../controller/loginController");
 const sellerRegistrationController = require("../controller/sellerRegistrationController");
+const adminController = require("../controller/adminController");
 const typeController = require("../controller/typeController");
 const { requireAuth } = require("../middleware/authMiddleware");
-const passport = require("passport");
 const webToken = require("../middleware/webtokenMiddleware");
 const { uploadMultiple } = require("../middleware/multerMiddleware");
 
+const route = express.Router();
 //! SignUp API's
 route.post("/signUp", signUpController.create);
 
@@ -55,6 +56,11 @@ route.post(
 //! Type Apis
 route.get("/type", typeController.getType);
 route.post("/type", typeController.postType);
+
+//TODO Admin Api's
+route.get("/adminoutletlist", adminController.adminOutletList);
+route.post("/adminoutletstatus", adminController.adminOutletApprove);
+route.post("/adminoutletactive", adminController.adminOutletActive);
 
 route.get("/", (req, res) => {
   res.cookie("newUsser", false);
