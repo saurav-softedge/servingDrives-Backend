@@ -46,7 +46,7 @@ const typeofcuisines = () => [
 
 exports.getType = async (req, res) => {
   const data = await typeModel.find();
-  res.status(200).send(data[0].dishType);
+  res.status(200).json({ data: data[0].dishType });
 };
 
 exports.postType = async (req, res) => {
@@ -57,6 +57,6 @@ exports.postType = async (req, res) => {
     });
     typeData.save().then((data) => res.status(200).status(200).send(data));
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ message: error.message });
   }
 };
