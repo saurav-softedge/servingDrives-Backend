@@ -52,7 +52,7 @@ exports.create = async (req, res) => {
   }
   const isExisting = await signUpdb.find({ email: req.body.email });
   if (isExisting.length > 0) {
-    res.send("user already exist");
+    res.status(400).json({ message: "user already exist" });
     return;
   } else {
     const signUpData = new signUpdb({
